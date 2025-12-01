@@ -1,9 +1,7 @@
 import {useEffect , useState, } from 'react'
-import Search from './components/Search'
-import Spinner from './components/Spinner';
+import Search from './components/search'
 import MovieCard from './components/MovieCard'
 import { useDebounce } from 'react-use';
-import { getTrendingMovies, updateSearchCount } from './appwrite';
 
 
 
@@ -22,7 +20,6 @@ const API_OPTIONS = {
 const App = () => {
   const [ searchTerm , setSearchTerm] = useState('');
   const [ errorMessage , setErrorMessage] = useState('');
-  const [trendingMovies, setTrendingMovies] = useState([]);
   const [ movieList , setMovieList] = useState([]);
   const [ isloading , setIsLoading] = useState(false);
   const [debounceSearchTerm , setDebounceSearchTerm ] = useState('')
@@ -33,12 +30,10 @@ const App = () => {
   const fetchMovies = async (query='') =>{
   setIsLoading(true);
   setErrorMessage("");
-
   try{
     const endpoint =query 
     ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-     :`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
-
+     :`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
     const response = await fetch(endpoint, API_OPTIONS);
 
     if(!response.ok){
@@ -47,43 +42,24 @@ const App = () => {
 
     const data = await response.json();
     
-    {/*if (data.Response === 'False'){
+    if (data.Response === 'False'){
       setErrorMessage(data.Error || 'Failed to fetch Movies');
       setMovieList([]);
       return
-    }*/}
-    setMovieList(data.results || []);
-
-    if(query && data.results.length > 0) {
-      await updateSearchCount(query, data.results[0]);
     }
+    setMovieList(data.results || []);
 
   }catch(error){
     console.error(`Error fetching Movies: ${error}`)
     setErrorMessage('Error fetching Movies. please try again later.');
-
   }finally{
     setIsLoading(false);
-  }
-}
-
-const loadTrendingMovies = async () => {
-  try {
-    const movies  = await getTrendingMovies();
-    setTrendingMovies(movies);
-  } catch (error) {
-    console.error(`Error fetching trending movies: ${error}`);
-    
   }
 }
 
    useEffect(() =>{
     fetchMovies(debounceSearchTerm);
   },[debounceSearchTerm]);
-
-  useEffect(() =>{
-    loadTrendingMovies();
-  },[]);
 
   
   return (
@@ -92,33 +68,15 @@ const loadTrendingMovies = async () => {
       
       <div className="wrapper">
         <header>
-          <img src='./logo.png' alt='logo' className=' w-28 '/>
           <img src="./hero.png" alt="hero Banner" />
           <h1>Find <span className='text-gradient '>Movies</span> You'll Enjoy Without The Hassle</h1>
-
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
         </header>
 
-        {trendingMovies.length > 0 && (
-          <section className='trending'>
-            <h2>Trending Movies</h2>
-
-            <ul>
-              {trendingMovies.map((movie, index) => (
-                <li key={movie.$id}>
-                  <p>{index+1}</p>
-                  <img src={movie.poster_url} alt={movie.title}/>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
         <section className="all-movies">
-          <h2>All movies</h2>
-
+          <h2 className='mt-[40px]'>All movies</h2>
           {isloading?(
-            <Spinner/>
+            <p className="test-white">Loading...</p>
           ):errorMessage?(
             <p className="text-red-500">{errorMessage}</p>
           ):(
@@ -130,7 +88,7 @@ const loadTrendingMovies = async () => {
           )}
         </section>
 
-        
+        <h1 className='text-white'>{searchTerm}</h1>
       </div>
     </main>
   )

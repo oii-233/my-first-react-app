@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
+
 @import "tailwindcss";
 
 @theme {
@@ -17,7 +18,7 @@
 
   --breakpoint-xs: 480px;
 
-  --background-image-hero-pattern: url("/hero-bg.png");
+  --background-image-hero-pattern: url("./hero-bg.png");
 }
 
 @layer base {
@@ -36,10 +37,7 @@
   }
 
   main {
-    @apply min-h-screen relative bg-primary;
-  }
-
-  header {
+    @apply min-h-screen relative 
     @apply sm:mt-10 mt-5;
   }
 
@@ -50,11 +48,11 @@
 
 @layer components {
   .pattern {
-    @apply bg-hero-pattern w-full h-screen bg-center bg-cover absolute z-0;
+    @apply bg-hero-pattern w-full h-screen bg-center bg-cover;
   }
-
+   
   .wrapper {
-    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
+    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-20;
   }
 
   .trending {

@@ -33,12 +33,10 @@ const App = () => {
   const fetchMovies = async (query='') =>{
   setIsLoading(true);
   setErrorMessage("");
-
   try{
     const endpoint =query 
     ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-     :`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
-
+     :`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
     const response = await fetch(endpoint, API_OPTIONS);
 
     if(!response.ok){
@@ -47,11 +45,11 @@ const App = () => {
 
     const data = await response.json();
     
-    {/*if (data.Response === 'False'){
+    if (data.Response === 'False'){
       setErrorMessage(data.Error || 'Failed to fetch Movies');
       setMovieList([]);
       return
-    }*/}
+    }
     setMovieList(data.results || []);
 
     if(query && data.results.length > 0) {
@@ -61,7 +59,6 @@ const App = () => {
   }catch(error){
     console.error(`Error fetching Movies: ${error}`)
     setErrorMessage('Error fetching Movies. please try again later.');
-
   }finally{
     setIsLoading(false);
   }
@@ -70,6 +67,7 @@ const App = () => {
 const loadTrendingMovies = async () => {
   try {
     const movies  = await getTrendingMovies();
+
     setTrendingMovies(movies);
   } catch (error) {
     console.error(`Error fetching trending movies: ${error}`);
@@ -92,10 +90,9 @@ const loadTrendingMovies = async () => {
       
       <div className="wrapper">
         <header>
-          <img src='./logo.png' alt='logo' className=' w-28 '/>
+          <img src='./logo.png' alt='logo' className=''/>
           <img src="./hero.png" alt="hero Banner" />
           <h1>Find <span className='text-gradient '>Movies</span> You'll Enjoy Without The Hassle</h1>
-
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
         </header>
 
@@ -130,7 +127,7 @@ const loadTrendingMovies = async () => {
           )}
         </section>
 
-        
+        <h1 className='text-white'>{searchTerm}</h1>
       </div>
     </main>
   )

@@ -95,7 +95,7 @@ const loadTrendingMovies = async () => {
           <img src='./logo.png' alt='logo' className=' w-28 '/>
           <img src="./hero.png" alt="hero Banner" />
           <h1>Find <span className='text-gradient '>Movies</span> You'll Enjoy Without The Hassle</h1>
-
+          
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
         </header>
 
@@ -130,7 +130,7 @@ const loadTrendingMovies = async () => {
           )}
         </section>
 
-        
+        <h1 className='text-white'>{searchTerm}</h1>
       </div>
     </main>
   )
